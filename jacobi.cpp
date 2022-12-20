@@ -1,9 +1,7 @@
 #include <vector>
 
 // Function for performing Jacobi iteration on a grid of values
-void jacobi(std::vector<std::vector<double>>& grid,
-            const std::vector<std::vector<double>>& rhs,
-            double relaxation_param)
+void jacobi(std::vector<std::vector<double>>& grid, const std::vector<std::vector<double>>& rhs, double relaxation_param)
 {
     // Get the dimensions of the grid
     int nx = grid.size();
@@ -18,8 +16,7 @@ void jacobi(std::vector<std::vector<double>>& grid,
         for (int j = 1; j < ny-1; j++)
         {
             // Update the value at this point using the Jacobi formula
-            temp[i][j] = (1 - relaxation_param) * grid[i][j] +
-                         relaxation_param * (grid[i-1][j] + grid[i+1][j] + grid[i][j-1] + grid[i][j+1] - rhs[i][j]) / 4.0;
+            temp[i][j] = (grid[i-1][j] + grid[i+1][j] + grid[i][j-1] + grid[i][j+1] - rhs[i][j]) / 4.0;
         }
     }
 

@@ -1,0 +1,8 @@
+//
+// Created by tommaso on 12/20/22.
+//
+
+#ifndef AMSC_MULTIGRID_MULTIGRID_HPP
+#define AMSC_MULTIGRID_MULTIGRID_HPP
+
+#endif //AMSC_MULTIGRID_MULTIGRID_HPP

@@ -1,8 +1,6 @@
 #include <vector>
 
-void sor(std::vector<std::vector<double>>& grid,
-         const std::vector<std::vector<double>>& rhs,
-         double relaxation_param)
+void sor(std::vector<std::vector<double>>& grid, const std::vector<std::vector<double>>& rhs, double relaxation_param)
 {
     // Get the dimensions of the grid
     int nx = grid.size();
