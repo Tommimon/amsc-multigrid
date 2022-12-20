@@ -3,7 +3,7 @@
 
 void multigrid(std::vector<std::vector<double>>& grid,
                const std::vector<std::vector<double>>& rhs,
-               const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)>& solver,
+               const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)>& solver,
                int num_levels,
                double relaxation_param);
 

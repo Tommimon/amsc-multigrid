@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     // Read arguments and set execution parameters
     int size = 4;
     int num_levels = 2;
-    std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)> solver = jacobi;
+    std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)> solver = jacobi;
     if (argc > 1)
         size = atoi(argv[1]);
     if (argc > 2)

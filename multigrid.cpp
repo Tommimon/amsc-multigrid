@@ -4,14 +4,14 @@
 // Function for performing multigrid on a grid of values
 void multigrid(std::vector<std::vector<double>>& grid,
                const std::vector<std::vector<double>>& rhs,
-               const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)>& solver,
+               const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)>& solver,
                int num_levels,
                double relaxation_param)
 {
     // If we are at the coarsest level, just perform Solver iteration
     if (num_levels == 1)
     {
-        solver(grid, rhs, relaxation_param);
+        solver(grid, rhs, relaxation_param, 0, 0);
         return;
     }
 
@@ -64,5 +64,5 @@ void multigrid(std::vector<std::vector<double>>& grid,
     }
 
     // Perform Solver iteration on the original grid
-    solver(grid, rhs, relaxation_param);
+    solver(grid, rhs, relaxation_param, 0, 0);
 }

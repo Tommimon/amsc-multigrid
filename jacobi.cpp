@@ -1,7 +1,11 @@
 #include <vector>
 
 // Function for performing Jacobi iteration on a grid of values
-void jacobi(std::vector<std::vector<double>>& grid, const std::vector<std::vector<double>>& rhs, double relaxation_param)
+void jacobi(std::vector<std::vector<double>>& grid,
+            const std::vector<std::vector<double>>& rhs,
+            double _relaxation_param,
+            int _my_rank,
+            int _num_procs)
 {
     // Get the dimensions of the grid
     int nx = grid.size();
