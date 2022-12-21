@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <functional>
-#include "multigrid.hpp"
+#include <cmath>
 #include "solvers.hpp"
 
 int main(int argc, char *argv[])
@@ -46,20 +46,28 @@ int main(int argc, char *argv[])
 
     // Set the relaxation parameter
     double relaxation_param = 0.9;
-    int nu = 10;
 
     // Perform multigrid on the grid
-    for (int i = 0; i < 10000; ++i) {
-        multigrid(grid, rhs, solver, num_levels, relaxation_param, nu);
+    int i = 0;
+    double r = 0;
+    double t = 1e-9;
+    while (i == 0 || std::isgreater(r, t)) {
+        solver(grid, rhs, relaxation_param);
+        r = residual(grid, rhs);
+        //std::cout << " " << r << std::endl;
+        i++;
     }
 
     // Print the final grid of values
-    for (int i = 0; i < grid.size(); i++) {
+    /*for (int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[0].size(); j++) {
             std::cout << grid[i][j] << " ";
         }
         std::cout << std::endl;
-    }
+    }*/
+
+
+    std::cout << i << std::endl;
 
     return 0;
 }
