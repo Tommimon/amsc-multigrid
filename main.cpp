@@ -1,9 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <functional>
-#include <mpi.h>
 #include "multigrid.hpp"
 #include "solvers.hpp"
+
+#ifdef USE_MPI
+#include <mpi.h>
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -62,7 +65,7 @@ int main(int argc, char *argv[])
 
 
     // Perform multigrid on the grid
-    multigrid(grid, rhs, solver, num_levels, relaxation_param);
+    multigrid(grid, rhs, solver, num_levels, relaxation_param, world_rank, world_size);
 
 #ifdef USE_MPI
     if (world_rank == 0) {

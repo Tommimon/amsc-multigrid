@@ -6,7 +6,9 @@ void multigrid(std::vector<std::vector<double>>& grid,
                const std::vector<std::vector<double>>& rhs,
                const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)>& solver,
                int num_levels,
-               double relaxation_param)
+               double relaxation_param,
+               int _my_rank,
+               int _num_procs)
 {
     // If we are at the coarsest level, just perform Solver iteration
     if (num_levels == 1)
@@ -43,7 +45,7 @@ void multigrid(std::vector<std::vector<double>>& grid,
     }
 
     // Perform multigrid on the coarser grid
-    multigrid(coarse_grid, rhs, solver, num_levels-1, relaxation_param);
+    multigrid(coarse_grid, rhs, solver, num_levels-1, relaxation_param, 0, 0);
 
     // Interpolate the error to the finer grid
     for (int i = 0; i < nx; i++)
