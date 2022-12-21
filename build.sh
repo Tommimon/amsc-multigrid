@@ -1,1 +1,1 @@
-flatpak-spawn --host mpiCC main.cpp -o cmake-build-debug/main.out
+flatpak-spawn --host g++ main.cpp jacobi.cpp gauss.cpp sor.cpp multigrid.cpp -o main.out

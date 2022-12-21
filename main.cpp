@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <functional>
+#include <mpi.h>
 #include "multigrid.hpp"
 #include "solvers.hpp"
 
@@ -46,19 +47,40 @@ int main(int argc, char *argv[])
 
     // Set the relaxation parameter
     double relaxation_param = 0.5;
+    int world_size = 0;
+    int world_rank = 0;
+
+#ifdef USE_MPI
+    MPI_Init(NULL, NULL);
+
+    // Get the number of processes
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+
+    // Get the rank of the process
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+#endif
+
 
     // Perform multigrid on the grid
     multigrid(grid, rhs, solver, num_levels, relaxation_param);
 
+#ifdef USE_MPI
+    if (world_rank == 0) {
+#endif
+
     // Print the final grid of values
-    for (int i = 0; i < grid.size(); i++)
-    {
-        for (int j = 0; j < grid[0].size(); j++)
-        {
+    for (int i = 0; i < grid.size(); i++) {
+        for (int j = 0; j < grid[0].size(); j++) {
             std::cout << grid[i][j] << " ";
         }
         std::cout << std::endl;
     }
+
+#ifdef USE_MPI
+    }
+
+    MPI_Finalize();
+#endif
 
     return 0;
 }

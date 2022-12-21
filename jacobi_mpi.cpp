@@ -1,7 +1,7 @@
 #include <vector>
 #include <mpi.h>
 
-void jacobi_mpi(std::vector<std::vector<double>>& grid,
+void jacobi(std::vector<std::vector<double>>& grid,
                 const std::vector<std::vector<double>>& rhs,
                 double relaxation_param,
                 int my_rank,
