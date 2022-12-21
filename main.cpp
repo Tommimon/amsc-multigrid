@@ -4,16 +4,12 @@
 #include "multigrid.hpp"
 #include "solvers.hpp"
 
-#ifdef USE_MPI
-#include <mpi.h>
-#endif
-
 int main(int argc, char *argv[])
 {
     // Read arguments and set execution parameters
-    int size = 4;
+    int size = 40;
     int num_levels = 2;
-    std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)> solver = jacobi;
+    std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)> solver = gauss_seidel;
     if (argc > 1)
         size = atoi(argv[1]);
     if (argc > 2)
@@ -53,23 +49,8 @@ int main(int argc, char *argv[])
     int world_size = 0;
     int world_rank = 0;
 
-#ifdef USE_MPI
-    MPI_Init(NULL, NULL);
-
-    // Get the number of processes
-    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-
-    // Get the rank of the process
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
-#endif
-
-
     // Perform multigrid on the grid
     multigrid(grid, rhs, solver, num_levels, relaxation_param, world_rank, world_size);
-
-#ifdef USE_MPI
-    if (world_rank == 0) {
-#endif
 
     // Print the final grid of values
     for (int i = 0; i < grid.size(); i++) {
@@ -78,12 +59,6 @@ int main(int argc, char *argv[])
         }
         std::cout << std::endl;
     }
-
-#ifdef USE_MPI
-    }
-
-    MPI_Finalize();
-#endif
 
     return 0;
 }

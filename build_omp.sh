@@ -1,0 +1,1 @@
+flatpak-spawn --host g++ -fopenmp main.cpp jacobi_omp.cpp gauss_omp.cpp sor_omp.cpp multigrid.cpp -o main.out

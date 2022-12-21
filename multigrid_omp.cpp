@@ -1,10 +1,5 @@
 #include <vector>
-#include <iostream>
 #include <functional>
-
-#ifdef USE_MPI
-#include <mpi.h>
-#endif
 
 // Function for performing multigrid on a grid of values
 void multigrid(std::vector<std::vector<double>>& grid,
@@ -15,6 +10,7 @@ void multigrid(std::vector<std::vector<double>>& grid,
                int my_rank,
                int num_procs)
 {
+
     // If we are at the coarsest level, just perform Solver iteration
     if (num_levels == 1)
     {
