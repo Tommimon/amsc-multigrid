@@ -58,13 +58,15 @@ int main(int argc, char *argv[])
         multigrid(grid, rhs, solver, num_levels, relaxation_param, nu);
     }
 
+#ifdef VERBOSE
     // Print the final grid of values
-    /*for (int i = 0; i < grid.size(); i++) {
+    for (int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[0].size(); j++) {
             std::cout << grid[i][j] << " ";
         }
         std::cout << std::endl;
-    }*/
+    }
+#endif
 
     return 0;
 }
