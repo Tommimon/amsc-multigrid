@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     // Read arguments and set execution parameters
     int size = 40;
     int num_levels = 2;
-    std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)> solver = gauss_seidel;
+    std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)> solver = gauss_seidel;
     if (argc > 1)
         size = atoi(argv[1]);
     if (argc > 2)
@@ -46,11 +46,12 @@ int main(int argc, char *argv[])
 
     // Set the relaxation parameter
     double relaxation_param = 0.5;
-    int world_size = 0;
-    int world_rank = 0;
+    int nu = 10;
 
     // Perform multigrid on the grid
-    multigrid(grid, rhs, solver, num_levels, relaxation_param, world_rank, world_size);
+    for (int i = 0; i < 10000; ++i) {
+        multigrid(grid, rhs, solver, num_levels, relaxation_param, nu);
+    }
 
     // Print the final grid of values
     for (int i = 0; i < grid.size(); i++) {

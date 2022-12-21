@@ -2,9 +2,7 @@
 
 void gauss_seidel(std::vector<std::vector<double>>& grid,
                   const std::vector<std::vector<double>>& rhs,
-                  double _relaxation_param,
-                  int _my_rank,
-                  int _num_procs)
+                  double _relaxation_param)
 {
     // Get the dimensions of the grid
     int nx = grid.size();

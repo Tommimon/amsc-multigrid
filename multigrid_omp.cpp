@@ -4,17 +4,17 @@
 // Function for performing multigrid on a grid of values
 void multigrid(std::vector<std::vector<double>>& grid,
                const std::vector<std::vector<double>>& rhs,
-               const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)>& solver,
+               const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)>& solver,
                int num_levels,
                double relaxation_param,
-               int my_rank,
-               int num_procs)
+               int nu)
 {
-
     // If we are at the coarsest level, just perform Solver iteration
     if (num_levels == 1)
     {
-        solver(grid, rhs, relaxation_param, my_rank, num_procs);
+        for (int i = 0; i < nu; ++i) {
+            solver(grid, rhs, relaxation_param);
+        }
         return;
     }
 
@@ -27,6 +27,7 @@ void multigrid(std::vector<std::vector<double>>& grid,
     std::vector<std::vector<double>> error(nx, std::vector<double>(ny));
 
     // Compute the residual on this grid
+#pragma omp parallel for
     for (int i = 1; i < nx-1; i++)
     {
         for (int j = 1; j < ny-1; j++)
@@ -37,6 +38,7 @@ void multigrid(std::vector<std::vector<double>>& grid,
 
     // Restrict the residual to the coarser grid
     std::vector<std::vector<double>> coarse_grid(nx/2, std::vector<double>(ny/2));
+#pragma omp parallel for
     for (int i = 0; i < nx/2; i++)
     {
         for (int j = 0; j < ny/2; j++)
@@ -46,26 +48,23 @@ void multigrid(std::vector<std::vector<double>>& grid,
     }
 
     // Perform multigrid on the coarser grid
-    multigrid(coarse_grid, rhs, solver, num_levels-1, relaxation_param, my_rank, num_procs);
+    multigrid(coarse_grid, rhs, solver, num_levels-1, relaxation_param, nu);
 
-    // Interpolate the error to the finer grid
+    // Interpolate the error to the finer grid and
+    // Add the error to the original grid
+#pragma omp parallel for
     for (int i = 0; i < nx; i++)
     {
         for (int j = 0; j < ny; j++)
         {
             error[i][j] = coarse_grid[i/2][j/2];
-        }
-    }
-
-    // Add the error to the original grid
-    for (int i = 1; i < nx-1; i++)
-    {
-        for (int j = 1; j < ny-1; j++)
-        {
-            grid[i][j] += error[i][j];
+            if (i < nx-1 && j < ny-1)
+                grid[i][j] += error[i][j];
         }
     }
 
     // Perform Solver iteration on the original grid
-    solver(grid, rhs, relaxation_param, my_rank, num_procs);
+    for (int i = 0; i < nu; ++i) {
+        solver(grid, rhs, relaxation_param);
+    }
 }

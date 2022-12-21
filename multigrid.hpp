@@ -3,10 +3,9 @@
 
 void multigrid(std::vector<std::vector<double>>& grid,
                const std::vector<std::vector<double>>& rhs,
-               const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double, int, int)>& solver,
+               const std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)>& solver,
                int num_levels,
                double relaxation_param,
-               int my_rank,
-               int num_procs);
+               int nu);
 
 #endif //AMSC_MULTIGRID_MULTIGRID_HPP

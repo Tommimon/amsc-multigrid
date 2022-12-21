@@ -2,9 +2,7 @@
 
 void jacobi(std::vector<std::vector<double>>& grid,
                 const std::vector<std::vector<double>>& rhs,
-                double relaxation_param,
-                int my_rank,
-                int num_procs)
+                double relaxation_param)
 {
     // Get the dimensions of the grid
     int nx = grid.size();
