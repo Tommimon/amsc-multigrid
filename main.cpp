@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <functional>
+#include <cmath>
 #include "multigrid.hpp"
 #include "solvers.hpp"
 
@@ -9,17 +10,20 @@ int main(int argc, char *argv[])
     // Read arguments and set execution parameters
     int size = 40;
     int num_levels = 2;
+    int nu = 10;
     std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)> solver = jacobi;
     if (argc > 1)
         size = atoi(argv[1]);
     if (argc > 2)
         num_levels = atoi(argv[2]);
-    if (argc > 3) {
-        if (argv[3][0] == 'j')
+    if (argc > 3)
+        nu = atoi(argv[3]);
+    if (argc > 4) {
+        if (argv[4][0] == 'j')
             solver = jacobi;
-        if (argv[3][0] == 'g')
+        if (argv[4][0] == 'g')
             solver = gauss_seidel;
-        if (argv[3][0] == 's')
+        if (argv[4][0] == 's')
             solver = sor;
     }
 
@@ -46,20 +50,27 @@ int main(int argc, char *argv[])
 
     // Set the relaxation parameter
     double relaxation_param = 0.9;
-    int nu = 10;
 
     // Perform multigrid on the grid
-    for (int i = 0; i < 10000; ++i) {
+    int i = 0;
+    double r = 0;
+    double t = 1e-9;
+    while (i == 0 || std::isgreater(r, t)) {
         multigrid(grid, rhs, solver, num_levels, relaxation_param, nu);
+        r = residual(grid, rhs);
+        //std::cout << " " << r << std::endl;
+        i++;
     }
 
     // Print the final grid of values
-    for (int i = 0; i < grid.size(); i++) {
+    /*for (int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[0].size(); j++) {
             std::cout << grid[i][j] << " ";
         }
         std::cout << std::endl;
-    }
+    }*/
+
+    std::cout << i << std::endl;
 
     return 0;
 }

@@ -8,24 +8,16 @@ int main(int argc, char *argv[])
 {
     // Read arguments and set execution parameters
     int size = 40;
-    int num_levels = 2;
     std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)> solver = jacobi;
     if (argc > 1)
         size = atoi(argv[1]);
-    if (argc > 2)
-        num_levels = atoi(argv[2]);
-    if (argc > 3) {
-        if (argv[3][0] == 'j')
+    if (argc > 2) {
+        if (argv[2][0] == 'j')
             solver = jacobi;
-        if (argv[3][0] == 'g')
+        if (argv[2][0] == 'g')
             solver = gauss_seidel;
-        if (argv[3][0] == 's')
+        if (argv[2][0] == 's')
             solver = sor;
-    }
-
-    if (size % (1 << (num_levels-1)) != 0) {
-        std::cout << "too many grid levels specified for this size, can't reduce grid" << std::endl;
-        return 0;
     }
 
     // Set up the grid of values and the right-hand side of the equation
@@ -47,7 +39,7 @@ int main(int argc, char *argv[])
     // Set the relaxation parameter
     double relaxation_param = 0.9;
 
-    // Perform multigrid on the grid
+    // Perform solver on the grid
     int i = 0;
     double r = 0;
     double t = 1e-9;
