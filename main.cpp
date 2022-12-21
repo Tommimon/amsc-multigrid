@@ -59,12 +59,12 @@ int main(int argc, char *argv[])
     }
 
     // Print the final grid of values
-    for (int i = 0; i < grid.size(); i++) {
+    /*for (int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[0].size(); j++) {
             std::cout << grid[i][j] << " ";
         }
         std::cout << std::endl;
-    }
+    }*/
 
     return 0;
 }
