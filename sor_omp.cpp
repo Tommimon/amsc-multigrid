@@ -9,14 +9,18 @@ void sor(std::vector<std::vector<double>>& grid,
     int ny = grid[0].size();
 
     // Perform SOR iteration on each point in the grid
-#pragma omp parallel for
-    for (int i = 1; i < nx-1; i++)
+    for (int sum = 2; sum < ny + nx - 3; sum++)
     {
-        for (int j = 1; j < ny-1; j++)
+        int startI = 1 > sum-ny+2 ? 1 : sum-ny+2;
+        int endI = nx-1 < sum ? nx-1 : sum;
+#pragma omp parallel for
+        for (int i = startI; i < endI; i++)
         {
+            int j = sum - i;
             // Update the value at this point using the SOR formula
             grid[i][j] = (1 - relaxation_param) * grid[i][j] +
-                         relaxation_param * (grid[i-1][j] + grid[i+1][j] + grid[i][j-1] + grid[i][j+1] - rhs[i][j]) / 4.0;
+                         relaxation_param *
+                         (grid[i - 1][j] + grid[i + 1][j] + grid[i][j - 1] + grid[i][j + 1] - rhs[i][j]) / 4.0;
         }
     }
 }
