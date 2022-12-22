@@ -24,8 +24,8 @@ def save_dots(x_list, y_list, y2_list=None, name='Test'):
 
 
 # initialize x and y coordinates
-x = [512, 1024, 2048, 4096, 'Initial grid size', 'Execution time']
-y = [0.697, 2.602, 9.696, 36.065, 'Serial']
-y2 = [0.526, 2.447, 9.127, 34.180, 'Parallel']
+x = [16, 32, 64, 128, 'Initial grid size', 'Execution time']
+y = [0.006, 0.089, 1.522, 7.539, 'With multi-grid']
+y2 = [0.010, 0.027, 0.066, 0.436, 'Without multi-grid']
 
-save_dots(x, y, y2, 'Serial and Parallel Multi-grid comparison (with Jacobi solver)')
+save_dots(x, y, y2, 'Jacobi solver with and without Multi-grid comparison')
