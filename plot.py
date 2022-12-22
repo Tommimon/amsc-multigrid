@@ -2,21 +2,30 @@
 import matplotlib.pyplot as plt
 
 
-def save_dots(x_list, y_list, name):
+def save_dots(x_list, y_list, y2_list=None, name='Test'):
     # set the title of a plot
     plt.title(name)
 
     # plot scatter plot with x and y data
-    plt.scatter(x, y)
+    plt.scatter(x_list[:-2], y_list[:-1])
+    if y2_list is not None:
+        plt.scatter(x_list[:-2], y2_list[:-1])
 
     # plot with x and y data
-    plt.plot(x, y)
+    plt.plot(x_list[:-2], y_list[:-1], label=y_list[-1])
+    if y2_list is not None:
+        plt.plot(x_list[:-2], y2_list[:-1], label=y2_list[-1])
 
-    plt.savefig(name.lower() + '.png')
+    plt.xlabel(x[-2])
+    plt.ylabel(x[-1])
+    plt.legend()
+
+    plt.savefig('assets/' + name.lower() + '.png')
 
 
 # initialize x and y coordinates
-x = [0.1, 0.2, 0.3, 0.4, 0.5]
-y = [6.2, -8.4, 8.5, 9.2, -6.3]
+x = [16, 32, 64, 128, 'Initial grid size', 'Number of iterations']
+y = [368, 1797, 8394, 38287, 'Jacobi']
+y2 = [186, 901, 4200, 19147, 'Gauss']
 
-save_dots(x, y, "Test")
+save_dots(x, y, y2, 'Serial solvers comparison')
