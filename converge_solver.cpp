@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 {
     // Read arguments and set execution parameters
     int size = 40;
+    double t = 1e-9;
     std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)> solver = jacobi;
     if (argc > 1)
         size = atoi(argv[1]);
@@ -18,6 +19,9 @@ int main(int argc, char *argv[])
             solver = gauss_seidel;
         if (argv[2][0] == 's')
             solver = sor;
+    }
+    if  (argc > 3) {
+        t = atof(argv[3]);
     }
 
     // Set up the grid of values and the right-hand side of the equation
@@ -42,7 +46,6 @@ int main(int argc, char *argv[])
     // Perform solver on the grid
     int i = 0;
     double r = 0;
-    double t = 1e-9;
     while (i == 0 || std::isgreater(r, t)) {
         solver(grid, rhs, relaxation_param);
         r = residual(grid, rhs);
