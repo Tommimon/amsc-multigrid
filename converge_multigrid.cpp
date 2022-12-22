@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     int size = 40;
     int num_levels = 2;
     int nu = 10;
+    double t = 1e-9;
     std::function<void(std::vector<std::vector<double>>&, const std::vector<std::vector<double>>&, double)> solver = jacobi;
     if (argc > 1)
         size = atoi(argv[1]);
@@ -25,6 +26,9 @@ int main(int argc, char *argv[])
             solver = gauss_seidel;
         if (argv[4][0] == 's')
             solver = sor;
+    }
+    if  (argc > 3) {
+        t = atof(argv[3]);
     }
 
     if (size % (1 << (num_levels-1)) != 0) {
@@ -54,7 +58,6 @@ int main(int argc, char *argv[])
     // Perform multigrid on the grid
     int i = 0;
     double r = 0;
-    double t = 1e-9;
     while (i == 0 || std::isgreater(r, t)) {
         multigrid(grid, rhs, solver, num_levels, relaxation_param, nu);
         r = residual(grid, rhs);
