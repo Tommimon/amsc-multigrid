@@ -25,7 +25,7 @@ def save_dots(x_list, y_list, y2_list=None, name='Test'):
 
 # initialize x and y coordinates
 x = [16, 32, 64, 128, 'Initial grid size', 'Number of iterations']
-y = [368, 1797, 8394, 38287, 'Jacobi']
-y2 = [186, 901, 4200, 19147, 'Gauss']
+y = [93, 82, 76, 75, 'Jacobi']
+y2 = [51, 103, 227, 279, 'Gauss']
 
-save_dots(x, y, y2, 'Serial solvers comparison')
+save_dots(x, y, y2, 'Serial solvers comparison with multigrid')

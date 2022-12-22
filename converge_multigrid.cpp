@@ -27,8 +27,8 @@ int main(int argc, char *argv[])
         if (argv[4][0] == 's')
             solver = sor;
     }
-    if  (argc > 3) {
-        t = atof(argv[3]);
+    if  (argc > 5) {
+        t = atof(argv[5]);
     }
 
     if (size % (1 << (num_levels-1)) != 0) {
