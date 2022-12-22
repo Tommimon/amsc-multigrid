@@ -25,7 +25,7 @@ def save_dots(x_list, y_list, y2_list=None, name='Test'):
 
 # initialize x and y coordinates
 x = [16, 32, 64, 128, 'Initial grid size', 'Execution time']
-y = [0.006, 0.089, 1.522, 7.539, 'With multi-grid']
-y2 = [0.010, 0.027, 0.066, 0.436, 'Without multi-grid']
+y = [0.006, 0.089, 1.522, 7.539, 'Without multi-grid']
+y2 = [0.010, 0.027, 0.066, 0.436, 'With multi-grid']
 
 save_dots(x, y, y2, 'Jacobi solver with and without Multi-grid comparison')
